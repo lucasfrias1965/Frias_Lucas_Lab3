@@ -106,7 +106,16 @@
 	//we are gonna make a left array, with inversed width and height
 	//from our matrix 2
 	$leftm_height = $matrix2_width;
-	$leftm_width = $matrix2_height
+	$leftm_width = $matrix2_height;
+
+	//these variables are to access the values in the matrix2 rows
+	$mut_row = $leftm_width-1; //start it at left-m the fartherst row we can
+	for($i = 0; i < $leftm_width; i++){
+		
+	}
+	
+
+
 
 
 ?>
