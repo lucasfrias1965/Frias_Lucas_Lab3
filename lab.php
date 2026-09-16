@@ -9,8 +9,8 @@
 	
 	while (true){
 		$usr_input = readline("MATRIX 1: Put in the matrix by inputting values serpated by one space. Type q and enter to finish\n");
-		if ($usr_input == "q"){break;}
-		$usr_input_split = explode(' ', $usr_input);
+		if ($usr_input == ""){break;}
+		$usr_input_split = explode(',', $usr_input);
 		$row_of_bools = array();
 		$row_counter = 0;
 		foreach ($usr_input_split as $row_el) {
@@ -100,15 +100,75 @@
 
 	$result_height = $matrix1_height;
 	$result_width = $matrix2_width;
-	$result_arr = array();
+
+
+	//okay so apparently matrix multiplcation is almost always O(n^3)
+	//i don't make a resulting matrix to display i just format and display the result
+	//okay here's how this works. imagine we multiply
+	// | 1  0 |      | 0 0 |
+	// | 0  1 |   x  | 1 1 |
+	//
+	// first, we pick the ith row on the left matrix (start at i=0)
+	//
+	//this one here
+	// --->| (1 0) |    | 0  0 |
+	//     | 0   1 |    | 1  1 |
+	// then we iterate through the jth column of the second matrix
+	// so this one here 
+	//		       |	
+	//                     |
+	// 	               v	
+	//     | (1 0) |    | (0)  0 |
+	//     | 0   1 |    | (1)  1 |
+	//
+	// and then we iterate through the range of values represented in the set of values whose column = j
+	// (0, 1)
+	// and apply them to the ith row
+	// (0 * 1) + (1 * 0) = 0
+	//
+	// we can write this in php as
+	// $sum += ( (int) $matrix1_arr[$i][$k] ) * ( (int) ($matrix2_arr[$k][$j]) );
+	//
+	// and then display our result with echo after the end of the third loop for each sum
+	// 
+	// lastly, at the end of every ith result we newline to demonstrate we're on a new column
+	// badaboosh
+	for ($i = 0; $i < $result_height; $i++){
+		//echo the beginning char to set the thing
+		echo "|";
+		//do the second loop over columns
+		for ($j = 0; $j < $result_width; $j++){
+			$sum = 0;
+			//so this is gonna be confusing.
+			//for each x, we multiply the integer value
+			//like $matrix1_arr[i][j] * $matrix2_arr[j][i]
+			//and we have to cast it to int because they are strings at the moment
+			for ($k = 0; $k < $matrix1_width; $k++){
+				//then we add the sum to the value for each element from each area
+				$sum += ( (int) $matrix1_arr[$i][$k] ) * ( (int) ($matrix2_arr[$k][$j]) );
+			}
+			//now we output the res, if it's 1 or higher than it's true, else false
+			$res = $sum >= 1 ? 1 : 0;
+			//display it with spacing
+			echo $res . ' ';
+		}
+		//end of the statement so we newline and continue
+		echo "|\n";
+	}
+
+	//bad code is below for prosperity. feel free to look, just trying to grapple with the algorithmic
+	//tendencies of doing this. take a look if you're interested.
+
+
+
 
 	//okay so the way i understand matrix multiplication is by rotating left
 	//and then doing all values, which i will now recreate
 	//we are gonna make a left array, with inversed width and height
 	//from our matrix 2
-	$leftm_height = $matrix2_width;
-	$leftm_width = $matrix2_height;
-	$leftm_arr = array();
+	//$leftm_height = $matrix2_width;
+	//$leftm_width = $matrix2_height;
+	//$leftm_arr = array();
 
 	//these variables are to access the values in the matrix2 rows
 	  
@@ -131,13 +191,13 @@
 	//
 	//this will be a bit tough, but hopefully this makes sense
 
-	for($x = $matrix2_width-1; $x >= 0; $x--){
+	/*for($x = $matrix2_width-1; $x >= 0; $x--){
 	       $x_level_arr = array();
 	       for ($y = 0; $y < $matrix2_height; $y++){
 		    array_push($x_level_arr, $matrix2_arr[$y][$x]);
 	       }
 	       array_push($leftm_arr, $x_level_arr);
-	}
+	}*/
 	//boom badabooey we have our left shifted matrix.
 	//now we have to iteravely define the matrix thing
 	//for every value in the matrix and correspond it correctly
@@ -152,17 +212,17 @@
 	//		(1 * 0 ) + ( 1 * 1)
 	//		calcualte the response, i think it's just or??
 	//
-	echo "Left shifted matrix is\n";
-	foreach ($leftm_arr as $py){
+	//echo "Left shifted matrix is\n";
+	/*foreach ($leftm_arr as $py){
 		foreach($py as $px){
 			echo ' ' . $px . ' ';
 		}
 		echo "\n";
-	}
+	}*/
 
-
+	
 	//this is O(n^3). gross!!! but it works
-
+	/*echo "|";
 	for ($matrix1_i = 0; $matrix1_i < $matrix1_height; $matrix1_i++){
 
 		//this is our array for the current working row of x values
@@ -173,7 +233,6 @@
 		//by converting them to chars and then multiplying and adding
 		//to the sum_slot. if the sum slut is >= 1
 		//then the value is set it true else false
-		$sum_slot = 0;
 
 
 		//these should be the same len so we need to check before
@@ -185,6 +244,7 @@
 		for ($leftm_i = 0; $leftm_i < $leftm_height; $leftm_i++){
 			
 			
+			$sum_slot = 0;
 			//get our x array for this iteration
 
 			$leftm_slice_at_y = $leftm_arr[$leftm_i];
@@ -197,11 +257,11 @@
 			$sum_slot = $sum_slot >= 1 ? 1 : 0;	
 			echo $sum_slot . " " ;
 		}
-	       echo "\n";
+	       echo "\n|";
 
 	}
 	
-	
+	 */	
 
 
 
