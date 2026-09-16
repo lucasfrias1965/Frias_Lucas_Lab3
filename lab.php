@@ -110,6 +110,8 @@
 
 	//these variables are to access the values in the matrix2 rows
 	$mut_row = $leftm_width-1; //start it at left-m the fartherst row we can
+
+
 	for($i = 0; i < $leftm_width; i++){
 		
 	}
