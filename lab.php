@@ -100,6 +100,7 @@
 
 	$result_height = $matrix1_height;
 	$result_width = $matrix2_width;
+	$result_arr = array();
 
 	//okay so the way i understand matrix multiplication is by rotating left
 	//and then doing all values, which i will now recreate
@@ -107,13 +108,35 @@
 	//from our matrix 2
 	$leftm_height = $matrix2_width;
 	$leftm_width = $matrix2_height;
+	$leftm_arr = array();
 
 	//these variables are to access the values in the matrix2 rows
-	$mut_row = $leftm_width-1; //start it at left-m the fartherst row we can
+	  
+	//so when we "rotate" a matrix we basically just shift it up where the farthest x elements become the smallest y elements
+	//like so
+	//
+	//|  1  2 |  rotate left    |  2  4  6 |
+	//|  3  4 |  90* degrees    |  1  3  5 |
+	//|  5  6 |  ----------->
+	//
+	//so here's what we do:
+	//for every i in the width range (in this case, 0 to 1
+	//	get every x-ith element in any y column
+	//		(example): 2, 4, 6 have x=1, y=*wildcard
+	//	make them into an array
+	//		(2,4,6)
+	//	push that value to the main array
+	//		array_push($result_arr, (2,4,6))
+	//	proceed.
+	//
+	//this will be a bit tough, but hopefully this makes sense
 
-
-	for($i = 0; i < $leftm_width; i++){
-		
+	for($x = 0; $x < $leftm_width-1 ; $x--){
+	       $x_level_arr = array();
+	       for ($y = 0; $y < $leftm_height; $y++){
+		    array_push($x_level_arr, $matrix2_arr[$y][$x]);
+	       }
+	       array_push($leftm_arr, $x_level_arr);
 	}
 	
 
