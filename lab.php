@@ -81,7 +81,7 @@
 		throw new Exception("Error, matrix height is zero, has no values");	
 	}
 
-	echo "Resulting Matrix 1\n";
+	echo "Resulting Matrix 2\n";
 	foreach ($matrix2_arr as $row){
 		echo '|';
 		foreach ($row as $x){
@@ -131,15 +131,77 @@
 	//
 	//this will be a bit tough, but hopefully this makes sense
 
-	for($x = 0; $x < $leftm_width-1 ; $x--){
+	for($x = $matrix2_width-1; $x >= 0; $x--){
 	       $x_level_arr = array();
-	       for ($y = 0; $y < $leftm_height; $y++){
+	       for ($y = 0; $y < $matrix2_height; $y++){
 		    array_push($x_level_arr, $matrix2_arr[$y][$x]);
 	       }
 	       array_push($leftm_arr, $x_level_arr);
 	}
-	
+	//boom badabooey we have our left shifted matrix.
+	//now we have to iteravely define the matrix thing
+	//for every value in the matrix and correspond it correctly
+	//so fun!!
 
+	//basically, here's the psuedogist
+	//
+	//for every row in matrix_1:
+	//	for every row on matrix_2:
+	//		calculate their combined coefficients
+	//		(example, matrix_1 is 1 1 and the other is 0 1 
+	//		(1 * 0 ) + ( 1 * 1)
+	//		calcualte the response, i think it's just or??
+	//
+	echo "Left shifted matrix is\n";
+	foreach ($leftm_arr as $py){
+		foreach($py as $px){
+			echo ' ' . $px . ' ';
+		}
+		echo "\n";
+	}
+
+
+	//this is O(n^3). gross!!! but it works
+
+	for ($matrix1_i = 0; $matrix1_i < $matrix1_height; $matrix1_i++){
+
+		//this is our array for the current working row of x values
+		$matrix1_slice_at_y = $matrix1_arr[$matrix1_i];
+
+		//sum_slot, a slot to put sums into
+		//we basically just gotta sum up the values
+		//by converting them to chars and then multiplying and adding
+		//to the sum_slot. if the sum slut is >= 1
+		//then the value is set it true else false
+		$sum_slot = 0;
+
+
+		//these should be the same len so we need to check before
+		//just to be paranoid
+		if ($leftm_width != $matrix1_width){
+			throw new Error("Impossible Error, the width and matrix1_width shouldn't happen");
+		}
+
+		for ($leftm_i = 0; $leftm_i < $leftm_height; $leftm_i++){
+			
+			
+			//get our x array for this iteration
+
+			$leftm_slice_at_y = $leftm_arr[$leftm_i];
+			
+			for ($i=0; $i<$leftm_width; $i++){
+				$sum_slot += ( (int) ( ($leftm_arr[$leftm_i][$i]) * ($matrix1_arr[$matrix1_i][$i])) );
+
+			}
+
+			$sum_slot = $sum_slot >= 1 ? 1 : 0;	
+			echo $sum_slot . " " ;
+		}
+	       echo "\n";
+
+	}
+	
+	
 
 
 
