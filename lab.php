@@ -1,4 +1,3 @@
-
 <?php
 	/*
 	 *  <@)
@@ -18,6 +17,21 @@
 	 *   for discussing boolean matrix mult-
 	 *   iplication.
 	 */
+
+    //defines a new prompt function to work with
+    //the less fancy php library that INSTALL.sh
+    //uses, instead of readline
+    function prompt(string $label): string {
+        //echoes the prompt like readline
+        echo $label;
+        //returns the text from STDIN, trimmed at the end to remove\n
+        $line = trim(fgets(STDIN));
+        //this is a fancy little regex i'm adding last minute because
+        //the python lab has it formatted so that you can put a whole lot
+        //of whitespace between the values. this shouuuuld fix that
+        return preg_replace('/ +/', ' ', $line);
+    }
+
 	$matrix1_height = 0;
 	$matrix1_width = -1;
 	$matrix2_height = 0;
@@ -27,7 +41,7 @@
 	$matrix2_arr = array();
 	
 	while (true){
-		$usr_input = readline("MATRIX 1: Enter your matrix, with a blank line to end:\n>"); 
+		$usr_input = prompt("MATRIX 1: Enter your matrix, with a blank line to end:\n>"); 
 		if ($usr_input == ""){break;}
 		$usr_input_split = explode(' ', $usr_input);
 		$row_of_bools = array();
@@ -67,7 +81,7 @@
 
 
 	while (true){
-		$usr_input = readline("MATRIX 2: Enter your matrix, with a blank line to end:\n>"); 
+		$usr_input = prompt("MATRIX 2: Enter your matrix, with a blank line to end:\n>"); 
 		if ($usr_input == ""){break;}
 		$usr_input_split = explode(' ', $usr_input);
 		$row_of_bools = array();
