@@ -8,14 +8,13 @@
 	$matrix2_arr = array();
 	
 	while (true){
-		$usr_input = readline("MATRIX 1: Put in the matrix by inputting values serpated by one space. Type q and enter to finish\n");
+		$usr_input = readline("MATRIX 1: Enter your matrix, with a blank line to end:\n>"); 
 		if ($usr_input == ""){break;}
 		$usr_input_split = explode(',', $usr_input);
 		$row_of_bools = array();
 		$row_counter = 0;
 		foreach ($usr_input_split as $row_el) {
 			//returns null if not truthy
-			echo "ROW EL IS (". $row_el .")\n";
 			if ($row_el != "0" && $row_el != "1"){throw new Exception("Values are not truthy enough to be in a Boolean Matrix");}
 			//now we just push the value because it's either true or false
 			array_push($row_of_bools, $row_el);
@@ -49,9 +48,9 @@
 
 
 	while (true){
-		$usr_input = readline("MATRIX 2: Put in the matrix by inputting values serpated by one space. Type q and enter to finish\n");
-		if ($usr_input == "q"){break;}
-		$usr_input_split = explode(' ', $usr_input);
+		$usr_input = readline("MATRIX 2: Enter your matrix, with a blank line to end:\n>"); 
+		if ($usr_input == ""){break;}
+		$usr_input_split = explode(',', $usr_input);
 		$row_of_bools = array();
 		$row_counter = 0;
 		foreach ($usr_input_split as $row_el) {
@@ -133,9 +132,12 @@
 	// 
 	// lastly, at the end of every ith result we newline to demonstrate we're on a new column
 	// badaboosh
+
+	echo "ANSWER OF A*B:\n____________________________\n";
+
 	for ($i = 0; $i < $result_height; $i++){
 		//echo the beginning char to set the thing
-		echo "|";
+		echo "| ";
 		//do the second loop over columns
 		for ($j = 0; $j < $result_width; $j++){
 			$sum = 0;
@@ -145,12 +147,21 @@
 			//and we have to cast it to int because they are strings at the moment
 			for ($k = 0; $k < $matrix1_width; $k++){
 				//then we add the sum to the value for each element from each area
-				$sum += ( (int) $matrix1_arr[$i][$k] ) * ( (int) ($matrix2_arr[$k][$j]) );
+				$sum += ((int) $matrix1_arr[$i][$k] ) * ( (int) ($matrix2_arr[$k][$j]) );
+
+				//okay sneaky optimization here. if 1 of the elements is true, we
+				//can just break and go to the next statement, this makes our algorithm O(n^2 * log_2(n) because of the probability distribution of having a true statement arise (for more inputs it will happen eventualy)
+				if ($sum > 0){
+					//echo the result, we don't need to keep searching
+					echo '1 ';
+					//break out of this loop, we're done
+					break;
+				}
 			}
-			//now we output the res, if it's 1 or higher than it's true, else false
-			$res = $sum >= 1 ? 1 : 0;
-			//display it with spacing
-			echo $res . ' ';
+			if ($sum == 0){
+				//now if the sum is zero, that means, well, the result is zero
+				echo '0 ';
+			}
 		}
 		//end of the statement so we newline and continue
 		echo "|\n";
@@ -158,9 +169,6 @@
 
 	//bad code is below for prosperity. feel free to look, just trying to grapple with the algorithmic
 	//tendencies of doing this. take a look if you're interested.
-
-
-
 
 	//okay so the way i understand matrix multiplication is by rotating left
 	//and then doing all values, which i will now recreate
