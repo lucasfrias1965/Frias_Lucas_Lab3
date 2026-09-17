@@ -1,4 +1,23 @@
+
 <?php
+	/*
+	 *  <@)
+	 *   KU//
+	 *   " "
+	 *   LUCAS FRIAS EECS 210
+	 *   KUID: 3195413
+	 *   LAB: WEDNESDAY 8:00 AM (MOHAMMAD)
+	 *   LAB NO 3
+	 *   DESCRIPTION: given a matrix that is
+	 *   space seperated, returns the multi
+	 *   -plication of two matrixes if 
+	 *   possible. Written in PHP
+	 *   Collaborators: Mrs. Mohammad for
+	 *   discussing better algorithms with me
+	 *   and Prof. Hodges (Linear Algebra)
+	 *   for discussing boolean matrix mult-
+	 *   iplication.
+	 */
 	$matrix1_height = 0;
 	$matrix1_width = -1;
 	$matrix2_height = 0;
@@ -10,7 +29,7 @@
 	while (true){
 		$usr_input = readline("MATRIX 1: Enter your matrix, with a blank line to end:\n>"); 
 		if ($usr_input == ""){break;}
-		$usr_input_split = explode(',', $usr_input);
+		$usr_input_split = explode(' ', $usr_input);
 		$row_of_bools = array();
 		$row_counter = 0;
 		foreach ($usr_input_split as $row_el) {
@@ -50,12 +69,11 @@
 	while (true){
 		$usr_input = readline("MATRIX 2: Enter your matrix, with a blank line to end:\n>"); 
 		if ($usr_input == ""){break;}
-		$usr_input_split = explode(',', $usr_input);
+		$usr_input_split = explode(' ', $usr_input);
 		$row_of_bools = array();
 		$row_counter = 0;
 		foreach ($usr_input_split as $row_el) {
 			//returns null if not truthy
-			echo "ROW EL IS (". $row_el .")\n";
 			if ($row_el != "0" && $row_el != "1"){throw new Exception("Values are not truthy enough to be in a Boolean Matrix");}
 			//now we just push the value because it's either true or false
 			array_push($row_of_bools, $row_el);
